@@ -336,7 +336,7 @@ dtc-tmp = $(subst $(comma),_,$(dot-target).dts.tmp)
 # mkdtimg
 #----------------------------------------------------------------------------
 quiet_cmd_mkdtimg = DTBOIMG $@
-cmd_mkdtimg = mkdtimg create $@ $(filter-out FORCE,$^)
+cmd_mkdtimg = $(pwd)/tools/mkdtimg cfg_create $@ $(find $(pwd)/out/arch/arm64/boot/dts/samsung/m23/m23xq -name ".*dtbo")
 
 # cat
 # ---------------------------------------------------------------------------
