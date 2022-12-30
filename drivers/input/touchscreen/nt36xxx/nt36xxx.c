@@ -58,6 +58,27 @@ extern int32_t nvt_mp_proc_init(void);
 extern void nvt_mp_proc_deinit(void);
 #endif
 
+typedef int(*touchpanel_recovery_cb_p_t)(void);
+extern int set_touchpanel_recovery_callback(touchpanel_recovery_cb_p_t cb);
+
+/* Fix Touch/Fingerprint wakeup crash issue */
+int nvt_ts_recovery_callback(void)
+{
+	if (unlikely(bTouchIsAwake)) {
+		NVT_ERR("touch is awake, can not to set\n");
+		return -EPERM;
+	}
+	if (ts->is_gesture_mode) {
+		NVT_LOG("recovery touch 'Double Click' mode start\n");
+		nvt_ts_resume(&ts->client->dev);
+		nvt_ts_suspend(&ts->client->dev);
+		NVT_LOG("recovery touch 'Double Click' mode end\n");
+	}
+	return 0;
+}
+
+EXPORT_SYMBOL(nvt_ts_recovery_callback);
+
 struct nvt_ts_data *ts;
 
 #if defined(CONFIG_DRM_PANEL)
@@ -1831,6 +1852,8 @@ static int32_t nvt_ts_resume(struct device *dev)
 	bTouchIsAwake = 1;
 
 	mutex_unlock(&ts->lock);
+	
+	set_touchpanel_recovery_callback(nvt_ts_recovery_callback);
 
 	NVT_LOG("end\n");
 
