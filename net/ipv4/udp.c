@@ -2294,7 +2294,7 @@ int __udp4_lib_rcv(struct sk_buff *skb, struct udp_table *udptable,
 			udp_sk_rx_dst_set(sk, dst);
 		// SEC_PRODUCT_FEATURE_KNOX_SUPPORT_NPA {
 		/* function to handle open flows with incoming udp packets */
-		if (check_ncm_flag()) {
+		/*if (check_ncm_flag()) {
 			if ( (sk) && (sk->sk_protocol == IPPROTO_UDP) ) {
 				ct = nf_ct_get(skb, &ctinfo);
 				if ( (ct) && (!atomic_read(&ct->startFlow)) && (!nf_ct_is_dying(ct)) ) {
@@ -2305,16 +2305,7 @@ int __udp4_lib_rcv(struct sk_buff *skb, struct udp_table *udptable,
 						if ( !isIpv4AddressEqualsNull(srcaddr, dstaddr) ) {
 							atomic_set(&ct->startFlow, 1);
 							if ( check_intermediate_flag() ) {
-								/* Use 'atomic_set(&ct->intermediateFlow, 1); ct->npa_timeout = ((u32)(jiffies)) + (get_intermediate_timeout() * HZ);' if struct nf_conn->timeout is of type u32; */
-								ct->npa_timeout = ((u32)(jiffies)) + (get_intermediate_timeout() * HZ);
-								atomic_set(&ct->intermediateFlow, 1);
-								/* Use 'unsigned long timeout = ct->timeout.expires - jiffies;
-										if ( (timeout > 0) && ((timeout/HZ) > 5) ) {
-											atomic_set(&ct->intermediateFlow, 1);
-											ct->npa_timeout.expires = (jiffies) + (get_intermediate_timeout() * HZ);
-											add_timer(&ct->npa_timeout);
-										}'
-								if struct nf_conn->timeout is of type struct timer_list; */
+
 							}
 							ct->knox_uid = sk->knox_uid;
 							ct->knox_pid = sk->knox_pid;
@@ -2338,7 +2329,7 @@ int __udp4_lib_rcv(struct sk_buff *skb, struct udp_table *udptable,
 					}
 				}
 			}
-		}
+		}*/
 		// SEC_PRODUCT_FEATURE_KNOX_SUPPORT_NPA }
 
 		ret = udp_unicast_rcv_skb(sk, skb, uh);
@@ -2359,7 +2350,7 @@ int __udp4_lib_rcv(struct sk_buff *skb, struct udp_table *udptable,
 		char srcaddr[INET6_ADDRSTRLEN_NAP];
 		char dstaddr[INET6_ADDRSTRLEN_NAP];
 		/* function to handle open flows with incoming udp packets */
-		if (check_ncm_flag()) {
+		/*if (check_ncm_flag()) {
 			if ( (sk) && (sk->sk_protocol == IPPROTO_UDP) ) {
 				ct = nf_ct_get(skb, &ctinfo);
 				if ( (ct) && (!atomic_read(&ct->startFlow)) && (!nf_ct_is_dying(ct)) ) {
@@ -2370,16 +2361,7 @@ int __udp4_lib_rcv(struct sk_buff *skb, struct udp_table *udptable,
 						if ( !isIpv4AddressEqualsNull(srcaddr, dstaddr) ) {
 							atomic_set(&ct->startFlow, 1);
 							if ( check_intermediate_flag() ) {
-								/* Use 'atomic_set(&ct->intermediateFlow, 1); ct->npa_timeout = ((u32)(jiffies)) + (get_intermediate_timeout() * HZ);' if struct nf_conn->timeout is of type u32; */
-								ct->npa_timeout = ((u32)(jiffies)) + (get_intermediate_timeout() * HZ);
-								atomic_set(&ct->intermediateFlow, 1);
-								/* Use 'unsigned long timeout = ct->timeout.expires - jiffies;
-										if ( (timeout > 0) && ((timeout/HZ) > 5) ) {
-											atomic_set(&ct->intermediateFlow, 1);
-											ct->npa_timeout.expires = (jiffies) + (get_intermediate_timeout() * HZ);
-											add_timer(&ct->npa_timeout);
-										}'
-								if struct nf_conn->timeout is of type struct timer_list; */
+								
 							}
 							ct->knox_uid = sk->knox_uid;
 							ct->knox_pid = sk->knox_pid;
@@ -2403,7 +2385,7 @@ int __udp4_lib_rcv(struct sk_buff *skb, struct udp_table *udptable,
 					}
 				}
 			}
-		}
+		}*/
 		// SEC_PRODUCT_FEATURE_KNOX_SUPPORT_NPA }
 		return udp_unicast_rcv_skb(sk, skb, uh);
 	}
